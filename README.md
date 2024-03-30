@@ -1,6 +1,6 @@
 # C-HTML
 
-> C-program to build beauty HTML templates
+> program to create beautiful HTML templates
 
 ## Usage
 
