@@ -25,27 +25,32 @@ void list_push_back(List* list, void* data);
     va_end(__VA_LIST__);                                           \
   }
 
-#define LIST_FOR_EACH(__LIST__, __CALLBACK__) \
+#define list_for_each(__LIST__, __CALLBACK__) \
   {                                           \
-    ListNode* __IT__ = __LIST__->head;        \
-    unsigned int __INDEX__ = 0;               \
-    while (__IT__) {                          \
-      ListNode* __IT_NXT__ = __IT__->next;    \
-      __CALLBACK__;                           \
-      __IT__ = __IT_NXT__;                    \
-      ++__INDEX__;                            \
+    if (__LIST__ != NULL) {                   \
+      ListNode* __IT__ = __LIST__->head;      \
+      unsigned int __INDEX__ = 0;             \
+      while (__IT__) {                        \
+        ListNode* __IT_NXT__ = __IT__->next;  \
+        __CALLBACK__;                         \
+        __IT__ = __IT_NXT__;                  \
+        ++__INDEX__;                          \
+      }                                       \
     }                                         \
   }
 
 #define list_destroy(__LIST__, __CALLBACK__) \
   {                                          \
-    ListNode* __IT__ = __LIST__->head;       \
-    unsigned int __INDEX__ = 0;              \
-    while (__IT__) {                         \
-      ListNode* __IT_NXT__ = __IT__->next;   \
-      __CALLBACK__;                          \
-      free(__IT__);                          \
-      ++__INDEX__;                           \
-      __IT__ = __IT_NXT__;                   \
+    if (__LIST__ != NULL) {                  \
+      ListNode* __IT__ = __LIST__->head;     \
+      unsigned int __INDEX__ = 0;            \
+      while (__IT__) {                       \
+        ListNode* __IT_NXT__ = __IT__->next; \
+        __CALLBACK__;                        \
+        free(__IT__);                        \
+        ++__INDEX__;                         \
+        __IT__ = __IT_NXT__;                 \
+      }                                      \
+      free(__LIST__);                        \
     }                                        \
   }

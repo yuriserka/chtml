@@ -18,13 +18,8 @@ void anchor_destroy(Anchor *anchor) {
   if (anchor == NULL) {
     return;
   }
-  if (anchor->style != NULL) {
-    style_destroy(anchor->style);
-  }
-  if (anchor->children != NULL) {
-    list_destroy(anchor->children, { tag_destroy(__IT__->data); });
-    free(anchor->children);
-  }
+  style_destroy(anchor->style);
+  list_destroy(anchor->children, { tag_destroy(__IT__->data); });
   free(anchor);
 }
 
@@ -37,8 +32,6 @@ void anchor_print(Anchor *anchor, int indent) {
   printf("%*s<a id=\"%s\" href=\"%s\" style=\"%s\">\n", indent * 4, "",
          anchor->key, anchor->href, style);
   free(style);
-  if (anchor->children != NULL) {
-    LIST_FOR_EACH(anchor->children, { tag_print(__IT__->data, indent + 1); });
-  }
+  list_for_each(anchor->children, { tag_print(__IT__->data, indent + 1); });
   printf("%*s</a>\n", indent * 4, "");
 }

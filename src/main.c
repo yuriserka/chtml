@@ -1,7 +1,3 @@
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "tags/html.h"
 
 int main() {
@@ -20,14 +16,26 @@ int main() {
           style_pair_create(STYLE_TYPE_BACKGROUND_COLOR, "rgba(0, 0, 255, 0.3)")
         )
       ),
-      list_of(3,
+      list_of(4,
         span_create(
           "hello world",
           style_create(
-            list_of(1, style_pair_create(STYLE_TYPE_PADDING, "1rem"))
+            list_of(2,
+              style_pair_create(STYLE_TYPE_PADDING, "1rem"),
+              style_pair_create(STYLE_TYPE_BACKGROUND_COLOR, "cyan")
+            )
           )
         ),
         img_create("https://picsum.photos/500/500", "alt text", 500, 500),
+        button_create(
+          "click me",
+          style_create(
+            list_of(2,
+              style_pair_create(STYLE_TYPE_COLOR, "green"),
+              style_pair_create(STYLE_TYPE_PADDING, "1rem")
+            )
+          )
+        ),
         div_create(
           style_create(
             list_of(1,

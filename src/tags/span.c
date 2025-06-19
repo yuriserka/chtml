@@ -17,6 +17,7 @@ void span_destroy(Span *span) {
   if (span == NULL) {
     return;
   }
+  style_destroy(span->style);
   free(span);
 }
 

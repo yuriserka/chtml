@@ -15,10 +15,7 @@ void style_destroy(Style *style) {
   if (style == NULL) {
     return;
   }
-  if (style->values != NULL) {
-    list_destroy(style->values, { free(__IT__->data); });
-    free(style->values);
-  }
+  list_destroy(style->values, { free(__IT__->data); });
   free(style);
 }
 
@@ -36,8 +33,8 @@ char *style_string(Style *style) {
     return str;
   }
 
-  for (ListNode *node = style->values->head; node != NULL; node = node->next) {
-    StylePair *pair = node->data;
+  list_for_each(style->values, {
+    StylePair *pair = __IT__->data;
     char *prop = NULL;
     switch (pair->prop) {
       case STYLE_TYPE_PADDING:
@@ -52,11 +49,15 @@ char *style_string(Style *style) {
       case STYLE_TYPE_BACKGROUND_COLOR:
         prop = "background-color";
         break;
+      case STYLE_TYPE_CURSOR:
+        prop = "cursor";
+        break;
     }
     char *temp = calloc(strlen(prop) + strlen(pair->value) + 10, sizeof(char));
     sprintf(temp, "%s: %s; ", prop, pair->value);
     strcat(str, temp);
     free(temp);
-  }
+  });
+
   return str;
 }

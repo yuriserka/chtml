@@ -6,8 +6,8 @@
 
 #include "uuid4/uuid4.h"
 
-#define TAG_INIT_UNION(MEM, TGT) \
-  (TagNodeValue) { .MEM = va_arg(ptr, TGT *) }
+#define TAG_INIT_UNION(__VA_LIST__, __MEM__, __T__) \
+  (TagNodeValue) { .__MEM__ = va_arg(__VA_LIST__, __T__ *) }
 
 Tag *tag_create(TagType type, char *key, int n_args, ...) {
   Tag *tag = calloc(1, sizeof(Tag));
@@ -15,25 +15,28 @@ Tag *tag_create(TagType type, char *key, int n_args, ...) {
   tag->key = key;
   tag->type = type;
 
-  va_list ptr;
-  va_start(ptr, n_args);
+  va_list args;
+  va_start(args, n_args);
 
   switch (type) {
     case TAG_TYPE_DIV:
-      tag->value = TAG_INIT_UNION(div, Div);
+      tag->value = TAG_INIT_UNION(args, div, Div);
       break;
     case TAG_TYPE_IMAGE:
-      tag->value = TAG_INIT_UNION(image, Image);
+      tag->value = TAG_INIT_UNION(args, image, Image);
       break;
     case TAG_TYPE_SPAN:
-      tag->value = TAG_INIT_UNION(span, Span);
+      tag->value = TAG_INIT_UNION(args, span, Span);
       break;
     case TAG_TYPE_ANCHOR:
-      tag->value = TAG_INIT_UNION(anchor, Anchor);
+      tag->value = TAG_INIT_UNION(args, anchor, Anchor);
+      break;
+    case TAG_TYPE_BUTTON:
+      tag->value = TAG_INIT_UNION(args, button, Button);
       break;
   }
 
-  va_end(ptr);
+  va_end(args);
 
   return tag;
 }
@@ -58,6 +61,9 @@ void tag_destroy(Tag *tag) {
     case TAG_TYPE_ANCHOR:
       anchor_destroy(tag->value.anchor);
       break;
+    case TAG_TYPE_BUTTON:
+      button_destroy(tag->value.button);
+      break;
   }
 
   free(tag);
@@ -80,6 +86,9 @@ void tag_print(Tag *tag, const int indent) {
       break;
     case TAG_TYPE_ANCHOR:
       anchor_print(tag->value.anchor, indent);
+      break;
+    case TAG_TYPE_BUTTON:
+      button_print(tag->value.button, indent);
       break;
   }
 }

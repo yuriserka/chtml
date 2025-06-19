@@ -7,6 +7,7 @@ typedef enum style_type_t {
   STYLE_TYPE_MARGIN,
   STYLE_TYPE_COLOR,
   STYLE_TYPE_BACKGROUND_COLOR,
+  STYLE_TYPE_CURSOR,
 } StyleType;
 
 typedef struct style_pair_t {

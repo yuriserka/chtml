@@ -18,13 +18,8 @@ void div_destroy(Div *div) {
   if (div == NULL) {
     return;
   }
-  if (div->style != NULL) {
-    style_destroy(div->style);
-  }
-  if (div->children != NULL) {
-    list_destroy(div->children, { tag_destroy(__IT__->data); });
-    free(div->children);
-  }
+  style_destroy(div->style);
+  list_destroy(div->children, { tag_destroy(__IT__->data); });
   free(div);
 }
 
@@ -36,8 +31,6 @@ void div_print(Div *div, int indent) {
   char *style = style_string(div->style);
   printf("%*s<div id=\"%s\" style=\"%s\">\n", indent * 4, "", div->key, style);
   free(style);
-  if (div->children != NULL) {
-    LIST_FOR_EACH(div->children, { tag_print(__IT__->data, indent + 1); });
-  }
+  list_for_each(div->children, { tag_print(__IT__->data, indent + 1); });
   printf("%*s</div>\n", indent * 4, "");
 }

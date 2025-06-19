@@ -4,7 +4,8 @@ typedef enum tag_type_t {
   TAG_TYPE_DIV,
   TAG_TYPE_IMAGE,
   TAG_TYPE_SPAN,
-  TAG_TYPE_ANCHOR
+  TAG_TYPE_ANCHOR,
+  TAG_TYPE_BUTTON,
 } TagType;
 typedef struct tag_t Tag;
 
@@ -13,6 +14,7 @@ typedef struct tag_t Tag;
 #include "list/node.h"
 #include "styling/style.h"
 #include "tags/anchor.h"
+#include "tags/button.h"
 #include "tags/div.h"
 #include "tags/img.h"
 #include "tags/span.h"
@@ -22,6 +24,7 @@ typedef struct tag_node_value_t {
   Image *image;
   Span *span;
   Anchor *anchor;
+  Button *button;
 } TagNodeValue;
 
 typedef struct tag_t {
